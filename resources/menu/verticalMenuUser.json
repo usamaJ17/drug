@@ -1,0 +1,10 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Search",
+      "icon": "menu-icon tf-icons ti ti-search",
+      "slug": "pages-home"
+    }
+  ]
+}
