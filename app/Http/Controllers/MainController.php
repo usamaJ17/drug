@@ -22,7 +22,17 @@ class MainController extends Controller
         return view('main.user-list');
     }
     public function userGetAll(){
-        $users = User::all();
+        $users = User::role('user')->get();
+        $ret_data = [
+            'data' => $users
+        ];
+        return response()->json($ret_data);
+    }
+    public function companyList(){
+        return view('main.company-list');
+    }
+    public function companyGetAll(){
+        $users = User::role('company')->get();
         $ret_data = [
             'data' => $users
         ];
@@ -38,7 +48,13 @@ class MainController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->with('error', $validator->errors()->first());
         }
-        Excel::import(new DrugsImport, $request->file('file'));
+        if(isset($request->format)){
+            if($request->format == 'pioneer'){
+                Excel::import(new DrugsImport, $request->file('file'));
+            }else if($request->format == 'liberty'){
+                Excel::import(new DrugsImport, $request->file('file'));
+            }
+        }
         return redirect()->route('pages-home');
     }
     public function userAddNew(Request $request){
@@ -47,7 +63,11 @@ class MainController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
-        $user->assignRole('user');
+        if(isset($request->role) && $request->role =='company'){
+            $user->assignRole('company');    
+        }else{
+            $user->assignRole('user');
+        }
         return response()->json($user);
     }
     public function userDelete(Request $request){

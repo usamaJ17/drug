@@ -13,8 +13,9 @@ use Spatie\Permission\Models\Role;
 // Main Page Route
 Route::get('/auth/login-basic', [LoginBasic::class, 'index'])->name('auth-login-basic');
 Route::get('role', function () {
-    Role::create(['name' => 'admin']);
-    Role::create(['name' => 'user']);
+    // Role::create(['name' => 'admin']);
+    Role::create(['name' => 'company']);
+    // Role::create(['name' => 'user']);
 });
 Route::middleware([
     'auth:sanctum',
@@ -25,13 +26,19 @@ Route::middleware([
         return view('/');
     })->name('dashboard');
     Route::middleware(['role:admin'])->group(function () {
-        Route::get('add/drugs', [MainController::class, 'addDrugsForm'])->name('drug-add-form');
-        Route::post('import/drugs', [MainController::class, 'importDrugs'])->name('drug-add-import');
         Route::get('user/list', [MainController::class, 'userList'])->name('user-list');
         Route::get('user/get', [MainController::class, 'userGetAll'])->name('user-get-all');
         Route::post('user/add_new', [MainController::class, 'userAddNew'])->name('user-add-new');
         Route::post('user/delete', [MainController::class, 'userDelete'])->name('user-delete');
+        Route::get('company/list', [MainController::class, 'companyList'])->name('company-list');
+        Route::get('company/get', [MainController::class, 'companyGetAll'])->name('company-get-all');
     });
-    Route::get('/', [MainController::class, 'search'])->name('pages-home');
-    Route::post('/drugs', [MainController::class, 'searchDrugs'])->name('drug-search');
+    Route::middleware(['role:admin|company'])->group(function () {
+        Route::get('add/drugs', [MainController::class, 'addDrugsForm'])->name('drug-add-form');
+        Route::post('import/drugs', [MainController::class, 'importDrugs'])->name('drug-add-import');
+    });
+    Route::middleware(['role:admin|user'])->group(function () {
+        Route::get('/', [MainController::class, 'search'])->name('pages-home');
+        Route::post('/drugs', [MainController::class, 'searchDrugs'])->name('drug-search');
+    });
 });

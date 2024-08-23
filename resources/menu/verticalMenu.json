@@ -4,20 +4,28 @@
       "url": "/",
       "name": "Search",
       "icon": "menu-icon tf-icons ti ti-search",
-      "slug": "pages-home"
+      "slug": "pages-home",
+      "role": "user"
     },
     {
       "url": "add/drugs",
       "icon": "menu-icon tf-icons ti ti-icons",
       "name": "Upload Data",
       "slug": "drug-add-form",
-      "role": "admin"
+      "role": "company"
     },
     {
       "url": "user/list",
       "name": "Users",
       "icon": "menu-icon tf-icons ti ti-users",
       "slug": "user-list",
+      "role": "admin"
+    },
+    {
+      "url": "company/list",
+      "name": "Companies",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "company-list",
       "role": "admin"
     }
   ]
