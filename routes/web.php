@@ -31,6 +31,7 @@ Route::middleware([
         Route::post('user/add_new', [MainController::class, 'userAddNew'])->name('user-add-new');
         Route::post('user/delete', [MainController::class, 'userDelete'])->name('user-delete');
         Route::get('company/list', [MainController::class, 'companyList'])->name('company-list');
+        
         Route::get('company/get', [MainController::class, 'companyGetAll'])->name('company-get-all');
     });
     Route::middleware(['role:admin|company'])->group(function () {
